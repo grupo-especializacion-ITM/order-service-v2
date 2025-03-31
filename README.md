@@ -2,9 +2,15 @@
 
 Este proyecto implementa un microservicio para la gestión de pedidos en un sistema de restaurantes, utilizando arquitectura hexagonal (puertos y adaptadores).
 
+## Integrantes
+- Santiago Meneses
+- Andres Henao
+- Adriel Machado
+
+
 ## Tecnologías utilizadas
 
-- Python 3.11+
+- Python 3.13+
 - FastAPI: Framework web de alto rendimiento
 - SQLAlchemy: ORM para la interacción con la base de datos
 - Alembic: Herramienta para migraciones de base de datos
@@ -91,10 +97,13 @@ alembic downgrade -1
 
 ## Ejecución de la aplicación
 
+## Recomendaciones
+usar entorno virtual 
+
 ### Modo desarrollo
 
 ```bash
-uvicorn main:app --reload
+uvicorn src.main:app --reload
 ```
 
 ### Con Docker
