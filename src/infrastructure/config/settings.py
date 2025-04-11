@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     
     # Database settings
-    DATABASE_URL: PostgresDsn = 'postgresql+asyncpg://adrielmachado0111:Afwl6cC7hKUN@ep-aged-band-882777-pooler.us-east-2.aws.neon.tech/orders_db'
+    DATABASE_URL: str
     DB_ECHO: bool = False
     
     # Kafka settings

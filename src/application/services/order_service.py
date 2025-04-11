@@ -26,11 +26,11 @@ class OrderService(OrderServicePort):
     def __init__(
         self,
         order_repository: OrderRepositoryPort,
-        #inventory_service: InventoryServicePort,
+        inventory_service: InventoryServicePort,
         #event_publisher: EventPublisherPort
     ):
         self.order_repository = order_repository
-        #self.inventory_service = inventory_service
+        self.inventory_service = inventory_service
         #self.event_publisher = event_publisher
     
     async def create_order(
@@ -42,18 +42,18 @@ class OrderService(OrderServicePort):
     ) -> Order:
         """Create a new order"""
         # Validate items availability
-        """ if not items:
+        if not items:
             raise OrderCreationException("Cannot create an order without items")
         
-        availability = await self.inventory_service.validate_items_availability(items) """
+        availability = await self.inventory_service.validate_items_availability(items)
         
         # Check if all items are available
-        """ unavailable_items = [str(item_id) for item_id, is_available in availability.items() if not is_available]
+        unavailable_items = [str(item_id) for item_id, is_available in availability.items() if not is_available]
         if unavailable_items:
             raise InventoryValidationException(
                 f"Some items are not available",
                 {"unavailable_items": unavailable_items}
-            ) """
+            )
         
         # Create the order
         order = Order.create(
@@ -108,12 +108,12 @@ class OrderService(OrderServicePort):
             )
         
         # Validate item availability
-        """ availability = await self.inventory_service.validate_items_availability([item])
+        availability = await self.inventory_service.validate_items_availability([item])
         if not availability.get(item.product_id, False):
             raise InventoryValidationException(
                 f"Item {item.name} is not available",
                 {"unavailable_item": str(item.product_id)}
-            ) """
+            )
         
         # Add the item
         order.add_item(item)
@@ -212,7 +212,7 @@ class OrderService(OrderServicePort):
             raise OrderNotFoundException(f"Order with ID {order_id} not found")
         
         # Validate items availability again
-        """ availability = await self.inventory_service.validate_items_availability(order.items)
+        availability = await self.inventory_service.validate_items_availability(order.items)
         
         # Check if all items are available
         unavailable_items = [str(item_id) for item_id, is_available in availability.items() if not is_available]
@@ -220,7 +220,7 @@ class OrderService(OrderServicePort):
             raise InventoryValidationException(
                 f"Some items are not available",
                 {"unavailable_items": unavailable_items}
-            ) """
+            )
         
         # Track previous status for the event
         previous_status = order.status.value

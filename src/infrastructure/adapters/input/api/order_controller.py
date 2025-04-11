@@ -29,12 +29,12 @@ class OrderController:
     async def get_order_service(session: AsyncSession = Depends(get_db_session)) -> OrderServicePort:
         """Dependency for getting the order service"""
         order_repository = OrderRepository(session)
-        #inventory_service = InventoryService()
+        inventory_service = InventoryService()
         #event_publisher = KafkaEventPublisher()
         
         return OrderService(
             order_repository=order_repository,
-            #inventory_service=inventory_service,
+            inventory_service=inventory_service,
             #event_publisher=event_publisher
         )
     
