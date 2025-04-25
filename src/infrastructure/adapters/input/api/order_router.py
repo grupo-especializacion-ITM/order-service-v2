@@ -2,7 +2,7 @@ from typing import List
 from uuid import UUID
 from fastapi import APIRouter, Depends, Body, Path, Query, status
 
-from domain.ports.input.order_service_port import OrderServicePort
+from src.domain.ports.input.order_service_port import OrderServicePort
 from src.infrastructure.adapters.input.api.order_controller import OrderController
 from src.infrastructure.adapters.input.api.schemas import (
     OrderSchema, 

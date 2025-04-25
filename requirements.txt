@@ -11,3 +11,6 @@ python-dotenv
 psycopg2-binary
 pydantic_settings
 pydantic[email]
+pytest
+coverage
+pytest-cov
