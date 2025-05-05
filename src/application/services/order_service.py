@@ -14,12 +14,12 @@ from src.domain.exceptions.domain_exceptions import (
     InventoryValidationException,
     OrderCreationException
 )
-""" from src.application.events.order_events import (
+from src.application.events.order_events import (
     OrderCreatedEvent,
     OrderConfirmedEvent,
     OrderCancelledEvent,
     OrderStatusUpdatedEvent
-) """
+)
 
 
 class OrderService(OrderServicePort):
@@ -27,11 +27,11 @@ class OrderService(OrderServicePort):
         self,
         order_repository: OrderRepositoryPort,
         inventory_service: InventoryServicePort,
-        #event_publisher: EventPublisherPort
+        event_publisher: EventPublisherPort
     ):
         self.order_repository = order_repository
         self.inventory_service = inventory_service
-        #self.event_publisher = event_publisher
+        self.event_publisher = event_publisher
     
     async def create_order(
         self,
@@ -79,18 +79,18 @@ class OrderService(OrderServicePort):
             for item in saved_order.items
         ]
         
-        """ order_created_event = OrderCreatedEvent.create(
-            order_id=saved_order.id,
-            customer_id=saved_order.customer_id,
+        order_created_event = OrderCreatedEvent.create(
+            order_id=str(saved_order.id),
+            customer_id=str(saved_order.customer_id),
             items=items_data,
             total_amount=saved_order.total.total,
             status=saved_order.status.value
-        ) """
+        )
         
-        """ await self.event_publisher.publish_event(
+        await self.event_publisher.publish_event(
             event_type=order_created_event.event_type,
             payload=order_created_event.__dict__
-        ) """
+        )
         
         return saved_order
     
@@ -161,9 +161,9 @@ class OrderService(OrderServicePort):
         updated_order = await self.order_repository.update(order)
         
         # Publish status updated event
-        """ status_updated_event = OrderStatusUpdatedEvent.create(
-            order_id=updated_order.id,
-            customer_id=updated_order.customer_id,
+        status_updated_event = OrderStatusUpdatedEvent.create(
+            order_id=str(updated_order.id),
+            customer_id=str(updated_order.customer_id),
             previous_status=previous_status,
             new_status=updated_order.status.value
         )
@@ -171,7 +171,7 @@ class OrderService(OrderServicePort):
         await self.event_publisher.publish_event(
             event_type=status_updated_event.event_type,
             payload=status_updated_event.__dict__
-        ) """
+        )
         
         return updated_order
     
@@ -192,15 +192,15 @@ class OrderService(OrderServicePort):
         updated_order = await self.order_repository.update(order)
         
         # Publish cancelled event
-        """ cancelled_event = OrderCancelledEvent.create(
-            order_id=updated_order.id,
-            customer_id=updated_order.customer_id
-        ) """
+        cancelled_event = OrderCancelledEvent.create(
+            order_id=str(updated_order.id),
+            customer_id=str(updated_order.customer_id)
+        )
         
-        """ await self.event_publisher.publish_event(
+        await self.event_publisher.publish_event(
             event_type=cancelled_event.event_type,
             payload=cancelled_event.__dict__
-        ) """
+        )
         
         return updated_order
     
@@ -232,16 +232,16 @@ class OrderService(OrderServicePort):
         updated_order = await self.order_repository.update(order)
         
         # Publish events
-        """  status_updated_event = OrderStatusUpdatedEvent.create(
-            order_id=updated_order.id,
-            customer_id=updated_order.customer_id,
+        status_updated_event = OrderStatusUpdatedEvent.create(
+            order_id=str(updated_order.id),
+            customer_id=str(updated_order.customer_id),
             previous_status=previous_status,
             new_status=updated_order.status.value
         )
         
         confirmed_event = OrderConfirmedEvent.create(
-            order_id=updated_order.id,
-            customer_id=updated_order.customer_id,
+            order_id=str(updated_order.id),
+            customer_id=str(updated_order.customer_id),
             total_amount=updated_order.total.total
         )
         
@@ -253,7 +253,7 @@ class OrderService(OrderServicePort):
         await self.event_publisher.publish_event(
             event_type=confirmed_event.event_type,
             payload=confirmed_event.__dict__
-        ) """
+        )
         
         return updated_order
 

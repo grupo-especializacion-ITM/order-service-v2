@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from typing import Dict, Any, List, Optional
 from uuid import UUID
 from datetime import datetime
+from uuid import uuid4
 
-
-@dataclass
+@dataclass(kw_only=True)
 class Event:
     """Base event class"""
     event_id: UUID
@@ -16,22 +16,21 @@ class Event:
 @dataclass
 class OrderCreatedEvent(Event):
     """Event emitted when an order is created"""
-    order_id: UUID
-    customer_id: UUID
+    order_id: str
+    customer_id: str
     items: List[Dict[str, Any]]
     total_amount: float
     status: str
     
     @staticmethod
-    def create(order_id: UUID, customer_id: UUID, items: List[Dict[str, Any]], 
+    def create(order_id: str, customer_id: str, items: List[Dict[str, Any]], 
               total_amount: float, status: str) -> "OrderCreatedEvent":
-        from uuid import uuid4
         
         return OrderCreatedEvent(
-            event_id=uuid4(),
+            event_id=str(uuid4()),
             event_type="order.created",
-            timestamp=datetime.now(),
-            order_id=order_id,
+            timestamp=str(datetime.now()),
+            order_id=str(order_id),
             customer_id=customer_id,
             items=items,
             total_amount=total_amount,
@@ -42,18 +41,18 @@ class OrderCreatedEvent(Event):
 @dataclass
 class OrderConfirmedEvent(Event):
     """Event emitted when an order is confirmed"""
-    order_id: UUID
-    customer_id: UUID
+    order_id: str
+    customer_id: str
     total_amount: float
     
     @staticmethod
-    def create(order_id: UUID, customer_id: UUID, total_amount: float) -> "OrderConfirmedEvent":
+    def create(order_id: str, customer_id: str, total_amount: float) -> "OrderConfirmedEvent":
         from uuid import uuid4
         
         return OrderConfirmedEvent(
-            event_id=uuid4(),
+            event_id=str(uuid4()),
             event_type="order.confirmed",
-            timestamp=datetime.now(),
+            timestamp=str(datetime.now()),
             order_id=order_id,
             customer_id=customer_id,
             total_amount=total_amount
@@ -63,18 +62,18 @@ class OrderConfirmedEvent(Event):
 @dataclass
 class OrderCancelledEvent(Event):
     """Event emitted when an order is cancelled"""
-    order_id: UUID
-    customer_id: UUID
+    order_id: str
+    customer_id: str
     reason: Optional[str] = None
     
     @staticmethod
-    def create(order_id: UUID, customer_id: UUID, reason: Optional[str] = None) -> "OrderCancelledEvent":
+    def create(order_id: str, customer_id: str, reason: Optional[str] = None) -> "OrderCancelledEvent":
         from uuid import uuid4
         
         return OrderCancelledEvent(
-            event_id=uuid4(),
+            event_id=str(uuid4()),
             event_type="order.cancelled",
-            timestamp=datetime.now(),
+            timestamp=str(datetime.now()),
             order_id=order_id,
             customer_id=customer_id,
             reason=reason
@@ -84,20 +83,20 @@ class OrderCancelledEvent(Event):
 @dataclass
 class OrderStatusUpdatedEvent(Event):
     """Event emitted when an order status is updated"""
-    order_id: UUID
-    customer_id: UUID
+    order_id: str
+    customer_id: str
     previous_status: str
     new_status: str
     
     @staticmethod
-    def create(order_id: UUID, customer_id: UUID, 
+    def create(order_id: str, customer_id: str, 
               previous_status: str, new_status: str) -> "OrderStatusUpdatedEvent":
-        from uuid import uuid4
+        
         
         return OrderStatusUpdatedEvent(
-            event_id=uuid4(),
+            event_id=str(uuid4()),
             event_type="order.status_updated",
-            timestamp=datetime.now(),
+            timestamp=str(datetime.now()),
             order_id=order_id,
             customer_id=customer_id,
             previous_status=previous_status,
