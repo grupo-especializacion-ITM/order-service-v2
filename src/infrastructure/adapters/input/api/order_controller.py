@@ -18,7 +18,7 @@ from src.application.services.order_query_service import OrderQueryService
 from src.application.mappers.order_mapper import OrderMapper
 from src.infrastructure.adapters.output.repositories.order_repository import OrderRepository
 from src.infrastructure.adapters.output.services.inventory_service import InventoryService
-#from src.infrastructure.adapters.output.messaging.kafka_event_publisher import KafkaEventPublisher
+from src.infrastructure.adapters.output.messaging.kafka_event_publisher import KafkaEventPublisher
 from src.infrastructure.db.session import get_db_session
 
 
@@ -30,12 +30,12 @@ class OrderController:
         """Dependency for getting the order service"""
         order_repository = OrderRepository(session)
         inventory_service = InventoryService()
-        #event_publisher = KafkaEventPublisher()
+        event_publisher = KafkaEventPublisher()
         
         return OrderService(
             order_repository=order_repository,
             inventory_service=inventory_service,
-            #event_publisher=event_publisher
+            event_publisher=event_publisher
         )
     
     @staticmethod
