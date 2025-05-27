@@ -94,19 +94,19 @@ def event_publisher():
 
 
 @pytest.fixture
-def order_service(order_repository, inventory_service):#, event_publisher
+def order_service(order_repository, inventory_service, event_publisher):#
     return OrderService(
         order_repository=order_repository,
         inventory_service=inventory_service,
-        #event_publisher=event_publisher
+        event_publisher=event_publisher
     )
 
 
 # Tests
 @pytest.mark.asyncio
-async def test_create_order_success(# event_publisher
+async def test_create_order_success( 
     order_service, customer_id, order_item, delivery_address,
-    order_repository, inventory_service,
+    order_repository, inventory_service,event_publisher
 ):
     # Setup
     items = [order_item]
@@ -138,7 +138,7 @@ async def test_create_order_success(# event_publisher
     # Verify interactions
     inventory_service.validate_items_availability.assert_called_once_with(items)
     order_repository.save.assert_called_once()
-    #event_publisher.publish_event.assert_called_once()
+    event_publisher.publish_event.assert_called_once()
 
 
 @pytest.mark.asyncio
@@ -163,9 +163,9 @@ async def test_create_order_inventory_unavailable(
 
 
 @pytest.mark.asyncio
-async def test_confirm_order_success(#, event_publisher
+async def test_confirm_order_success(#
     order_service, order, order_id,
-    order_repository, inventory_service
+    order_repository, inventory_service, event_publisher
 ):
     # Setup
     order_repository.find_by_id.return_value = order
@@ -193,7 +193,7 @@ async def test_confirm_order_success(#, event_publisher
     order_repository.find_by_id.assert_called_once_with(order_id)
     inventory_service.validate_items_availability.assert_called_once_with(order.items)
     order_repository.update.assert_called_once()
-    #assert event_publisher.publish_event.call_count == 2  # Two events: status updated and order confirmed
+    assert event_publisher.publish_event.call_count == 2  # Two events: status updated and order confirmed
 
 
 @pytest.mark.asyncio
@@ -241,4 +241,4 @@ async def test_cancel_order_success(#, event_publisher
     # Verify interactions
     order_repository.find_by_id.assert_called_once_with(order_id)
     order_repository.update.assert_called_once()
-    #event_publisher.publish_event.assert_called_once()
+    event_publisher.publish_event.assert_called_once()
