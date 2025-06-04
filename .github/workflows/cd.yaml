@@ -23,5 +23,5 @@ jobs:
 
     - name: Build and Push Order Service
       run: |
-        docker build -t ${USERNAME}/order-service:latest .
-        docker push ${USERNAME}/order-service:latest
+        docker build -t adrielmachado0111/order-service:latest .
+        docker push adrielmachado0111/order-service:latest
