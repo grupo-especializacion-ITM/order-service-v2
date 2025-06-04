@@ -1,18 +1,16 @@
-name: Build and Push Docker Image
+name: CD - Build and Push Docker Image
 
 on:
   push:
     branches:
       - main
 
-env:
-  USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    env:
+      USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -22,5 +20,5 @@ jobs:
 
     - name: Build and Push Order Service
       run: |
-        docker build -t ${USERNAME}/order-service:latest .
+        docker build -t ${USERNAME}/order-service:latest ./order-service
         docker push ${USERNAME}/order-service:latest
