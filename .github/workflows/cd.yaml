@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Log in to Docker Hub
-      run: echo "${{PASSWORD}}" | docker login -u "${{USERNAME}}" --password-stdin
+      run: echo "${PASSWORD}" | docker login -u "${USERNAME}" --password-stdin
 
     - name: Build and Push Order Service
       run: |
