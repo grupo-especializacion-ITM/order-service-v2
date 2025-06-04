@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     
     # Database settings
-    DATABASE_URL: str
+    ORDER_DATABASE_URL: str
     DB_ECHO: bool = False
     
     # Kafka settings
