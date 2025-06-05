@@ -7,7 +7,7 @@ settings = get_settings()
 
 # Create async engine
 engine = create_async_engine(
-    settings.DATABASE_URL,
+    settings.ORDER_DATABASE_URL,
     echo=settings.DB_ECHO,
     future=True
 )
