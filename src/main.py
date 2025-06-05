@@ -49,6 +49,7 @@ app = FastAPI(
     version=settings.APP_VERSION,
     debug=settings.DEBUG,
     lifespan=lifespan,
+    root_path="/order"
 )
 
 # Add CORS middleware
